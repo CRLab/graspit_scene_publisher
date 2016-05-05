@@ -123,7 +123,7 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
                //index = h*width + w;
                index = (height-h-1)*width + w;
 
-               double val = 0;
+               int val = 0;
                for (int c =0; c < 3; c++)
                {
                    val += data[i]*pow(255,(3-c-1));
