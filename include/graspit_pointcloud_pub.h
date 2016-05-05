@@ -4,8 +4,11 @@
 #include <include/plugin.h>
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/CameraInfo.h>
 
 class DepthRenderer;
+class RGBRenderer;
+class SoPerspectiveCamera;
 
 namespace graspit_pointcloud_pub
 {
@@ -25,8 +28,13 @@ private:
   ros::Publisher cameraInfoPublisher;
 
    DepthRenderer *depthRenderer;
+   RGBRenderer *rgbRenderer;
 
    bool inited;
+
+
+   void getCameraInfoFromCamera(sensor_msgs::CameraInfo * info);
+   void setCameraFromInfo(sensor_msgs::CameraInfo & info, SoPerspectiveCamera * cam);
 
 
 public:

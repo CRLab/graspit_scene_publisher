@@ -134,12 +134,14 @@ catkin_package(
  add_library(${PROJECT_NAME}
    include/graspit_pointcloud_pub.h
    include/depth_renderer.h
+   include/rgb_renderer.h
    include/SoGLFrameBufferSpy.h
    include/SoReadableSceneTexture2.h
 
    src/graspit_pointcloud_pub.cpp
    src/main.cpp
    src/depth_renderer.cpp
+   src/rgb_renderer.cpp
    src/SoReadableSceneTexture2.cpp
    src/SoGLFrameBufferSpy.cpp)
 

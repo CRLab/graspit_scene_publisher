@@ -1,9 +1,13 @@
 <launch>
- <node pkg="nodelet" type="nodelet" name="cloudify"
+ <node pkg="nodelet" type="nodelet" args="manager"
+name="record_player_manager" output="screen"/>
+
+<node pkg="nodelet" type="nodelet" name="cloudify"
 args="load depth_image_proc/point_cloud_xyzrgb record_player_manager">
 <remap from="depth_registered/image_rect" to="/graspit/image_rect"/>
 <remap from="depth_registered/points" to="camera/depth_registered/points"/>
 <remap from="rgb/image_rect_color" to="/graspit/image_rect_color"/>
 <remap from="rgb/camera_info" to="/graspit/camera_info"/>
 </node>
+
 </launch>

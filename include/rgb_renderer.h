@@ -1,6 +1,6 @@
 
-#ifndef _DEPTH_RENDERER_H_
-#define _DEPTH_RENDERER_H_
+#ifndef _RGB_RENDERER_H_
+#define _RGB_RENDERER_H_
 
 #include <Inventor/nodes/SoDepthBuffer.h>
 #include <Inventor/nodes/SoSceneTexture2.h>
@@ -17,21 +17,28 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoCamera.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
-#include <Inventor/SbViewportRegion.h>
+
+#include <SoGLFrameBufferSpy.h>
+#include <SoReadableSceneTexture2.h>
 
 #include <ros/ros.h>
+
 #include <ros/package.h>
+#include <sensor_msgs/CameraInfo.h>
+#include <Inventor/SbViewportRegion.h>
+
 #include <sensor_msgs/Image.h>
 
+#include <sensor_msgs/CameraInfo.h>
 
-class DepthRenderer
+class RGBRenderer
 {
 
 public:
-    DepthRenderer();
-    ~DepthRenderer();
+    RGBRenderer();
+    ~RGBRenderer();
 
-    void renderDepthImage(sensor_msgs::Image * img_ptr);
+    void renderImage(sensor_msgs::Image * img_ptr);
 
 
 private:
@@ -42,8 +49,9 @@ private:
     SoFragmentShader *fragmentShader;
     SoShaderProgram *shaderProgram;
     SoSeparator *shaderSep;
-    SoDepthBuffer * depthBuffer;
 
+    SoReadableSceneTexture2 *sceneTex;
+    SoGLFrameBufferSpy *spy;
 
     bool verbose;
 };
