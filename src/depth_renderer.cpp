@@ -2,6 +2,9 @@
 #include <QImage>
 #include <graspit_source/include/graspitGUI.h>
 #include <graspit_source/include/ivmgr.h>
+#include <rospack/rospack.h>
+#include <ros/package.h>
+#include <ros/ros.h>
 
 
 void DepthRenderer::getCameraInfoFromCamera(sensor_msgs::CameraInfo * info)
@@ -40,8 +43,15 @@ DepthRenderer::DepthRenderer()
     depthBuffer->test = true;
     depthBuffer->write = true;
 
-    //std::string script_path = ros::package::getPath("graspit_pointcloud_pub") + std::string("/render_scripts");
-    std::string script_path = std::string("/home/jalapeno/curg/tactile_simulation_graspit_ws/src/graspit_pointcloud_pub/render_scripts");
+    ROS_INFO_STREAM("About to get Render Scripts Path");
+    std::string s2;
+    static rospack::Rospack rp;
+    std::vector<std::string> sp;
+    rp.getSearchPathFromEnv(sp);
+    rp.crawl(sp, true);
+    rp.find("graspit_scene_publisher", s2);
+    std::string script_path = s2 + std::string("/render_scripts");
+    ROS_INFO_STREAM("Loading Render Scripts from " << script_path << std::endl);
 
     vertexShader = new SoVertexShader;
     vertexShader->sourceProgram.setValue((script_path + "/depth_vert.glsl").c_str());

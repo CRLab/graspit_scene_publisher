@@ -16,9 +16,9 @@ class GraspitPointCloudPub :  public Plugin
 private:
 
   //! Node handle in the root namespace
-  ros::NodeHandle *root_nh_;
+  ros::NodeHandlePtr root_nh_;
   //! Node handle in the private namespace
-  ros::NodeHandle *priv_nh_;
+  ros::NodeHandlePtr priv_nh_;
 
   ros::Publisher depthImagePublisher;
   ros::Publisher rgbImagePublisher;

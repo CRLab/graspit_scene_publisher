@@ -55,5 +55,7 @@ private:
     SoReadableSceneTexture2 *sceneTex;
     SoGLFrameBufferSpy *spy;
 
+    ros::NodeHandle nh_;
+
     bool verbose;
 };
