@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(graspit_pointcloud_pub)
+project(graspit_scene_publisher)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -131,7 +131,7 @@ catkin_package(
 # add_dependencies(graspit_pointcloud_pub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
- add_library(graspit_pointcloud_pub_plugin
+ add_library(${PROJECT_NAME}
    include/graspit_pointcloud_pub.h
    include/depth_renderer.h
    include/SoGLFrameBufferSpy.h
@@ -148,7 +148,7 @@ catkin_package(
 # add_dependencies(graspit_pointcloud_pub_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(graspit_pointcloud_pub_plugin GLU
+ target_link_libraries(${PROJECT_NAME} GLU
    ${catkin_LIBRARIES}
     ${SoQt_LIBRARIES}
     ${QT_LIBRARIES}

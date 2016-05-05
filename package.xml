@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <package>
-  <name>graspit_pointcloud_pub</name>
+  <name>graspit_scene_publisher</name>
   <version>0.0.0</version>
-  <description>The graspit_pointcloud_pub package</description>
+  <description>
+    Publishes, the graspit camera info, rgb image, and depth image of the current scene
+  </description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -13,7 +15,7 @@
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>BSD</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
