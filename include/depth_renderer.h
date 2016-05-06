@@ -43,9 +43,6 @@ private:
     SoShaderProgram *shaderProgram;
     SoSeparator *shaderSep;
     SoDepthBuffer * depthBuffer;
-
-
-    bool verbose;
 };
 
 #endif

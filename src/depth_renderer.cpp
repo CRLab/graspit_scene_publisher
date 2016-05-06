@@ -53,12 +53,10 @@ DepthRenderer::DepthRenderer()
     glRend->setNumPasses(5);
     glRend->setTransparencyType(SoGLRenderAction::NONE);
 
-    const SbColor white(0, 0, 0);
+    const SbColor black(255, 255, 255);
     myRenderer = new SoOffscreenRenderer(glRend);
-    myRenderer->setBackgroundColor(white);
+    myRenderer->setBackgroundColor(black);
     myRenderer->setComponents(SoOffscreenRenderer::RGB_TRANSPARENCY);
-
-    verbose = false;
 }
 
 DepthRenderer::~DepthRenderer()
@@ -77,18 +75,7 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
 {
     myRenderer->render(shaderSep);
 
-    SbBool result;
-    result = myRenderer->writeToFile("test","png");
-
-
     unsigned char * data = myRenderer->getBuffer();
-    if (verbose)
-    {
-      ROS_ERROR_STREAM("Test char 0:" << std::hex << std::setfill('0') << std::setw(2) << (int)data[0]);
-      ROS_ERROR_STREAM("Test char 1:" << std::hex << std::setfill('0') << std::setw(2) << (int)data[1]);
-      ROS_ERROR_STREAM("Test char 2:" << std::hex << std::setfill('0') << std::setw(2) << (int)data[2]);
-      ROS_ERROR_STREAM("Test char 3:" << std::hex << std::setfill('0') << std::setw(2) << (int)data[3]);
-    }
 
     float scale_factor = 10000.0; // output units to meters conversion factor
 
@@ -103,11 +90,8 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
       img_ptr->header.frame_id = "/graspit_camera";
       img_ptr->header.stamp = ros::Time::now();
 
-       //std::cout << "depth_image height: " << img_ptr->height << " width: " << img_ptr->width << std::endl;
-
       float * float_data = (float*)img_ptr->data.data();
 
-       int total_size =  img_ptr->data.size();
        int width = img_ptr->width;
        int height = img_ptr->height;
 
@@ -115,12 +99,8 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
        int index = 0;
        for(int h = 0; h < height; ++ h)
        {
-           //250
            for(int w = 0; w < width; ++ w)
            {
-               //working
-               //index = i/4;
-               //index = h*width + w;
                index = (height-h-1)*width + w;
 
                int val = 0;
@@ -130,16 +110,9 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
                    ++i;
                }
                ++i; // extra one because 4 channels...
-               //std::cout << "w " << w << " width " << width << "index" << index <<std::endl;
                float_data[index] =  val/scale_factor;
            }
        }
-
-       //works but flipped
-//      for(size_t i = 0; i < img_ptr->data.size()/sizeof(float); ++ i)
-//      {
-//          float_data[i] = (data[i*4]*255*255 + data[i*4 + 1]*255 + data[i*4 + 2])/scale_factor;
-//     }
 
     }
 }

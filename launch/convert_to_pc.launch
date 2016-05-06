@@ -1,4 +1,5 @@
 <launch>
+ <node name="graspit_ros" pkg="graspit_scene_publisher" type="launch_graspit.sh" />
  <node pkg="nodelet" type="nodelet" args="manager"
 name="record_player_manager" output="screen"/>
 

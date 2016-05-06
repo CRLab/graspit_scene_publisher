@@ -18,9 +18,6 @@
 #include <Inventor/nodes/SoCamera.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 
-#include <SoGLFrameBufferSpy.h>
-#include <SoReadableSceneTexture2.h>
-
 #include <ros/ros.h>
 
 #include <ros/package.h>
@@ -43,17 +40,6 @@ public:
 
 private:
     SoQtRenderArea *renderArea;
-    SoGLRenderAction *glRend;
-    SoOffscreenRenderer *myRenderer;
-    SoVertexShader *vertexShader;
-    SoFragmentShader *fragmentShader;
-    SoShaderProgram *shaderProgram;
-    SoSeparator *shaderSep;
-
-    SoReadableSceneTexture2 *sceneTex;
-    SoGLFrameBufferSpy *spy;
-
-    bool verbose;
 };
 
 #endif
