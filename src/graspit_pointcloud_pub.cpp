@@ -6,6 +6,7 @@
 
 #include <graspit_source/include/graspitGUI.h>
 #include <graspit_source/include/ivmgr.h>
+#include <graspit_source/include/matvec3D.h>
 
 #include "graspit_pointcloud_pub.h"
 #include "depth_renderer.h"
@@ -90,7 +91,6 @@ void GraspitPointCloudPub::getCameraInfoFromCamera(sensor_msgs::CameraInfo * inf
 
 void GraspitPointCloudPub::setCameraFromInfo(sensor_msgs::CameraInfo & info, SoPerspectiveCamera * cam)
 {
-      //SoPerspectiveCamera * cam = static_cast<SoPerspectiveCamera* >(getIVmgr()->getViewer()->getCamera());
       double focal_length = info.K[0];
       double fovy =  2 * atan(info.height / (2 * focal_length)) * 180.0 / M_PI;
       cam->heightAngle = fovy;
@@ -100,6 +100,39 @@ void GraspitPointCloudPub::setCameraFromInfo(sensor_msgs::CameraInfo & info, SoP
       cam->farDistance = 2000;
 }
 
+
+void GraspitPointCloudPub::publishCameraTF()
+{
+
+    transf camera_tf = graspItGUI->getIVmgr()->getCameraTransf();
+
+    static tf::TransformBroadcaster br;
+
+    tf::Transform optical_to_camera;
+    optical_to_camera.setIdentity();
+
+    tf::Transform camera_to_world;
+    camera_to_world.setIdentity();
+
+
+    tf::Quaternion optical_to_camera_q;
+    optical_to_camera_q.setRPY( M_PI, 0 , 0);
+    optical_to_camera.setRotation(optical_to_camera_q);
+
+
+    tf::Quaternion camera_to_world_q(camera_tf.rotation().x,
+                                     camera_tf.rotation().y,
+                                     camera_tf.rotation().z,
+                                     camera_tf.rotation().w);
+
+    camera_to_world.setRotation(camera_to_world_q);
+    camera_to_world.setOrigin( tf::Vector3(camera_tf.translation().x()/1000.0, camera_tf.translation().y()/1000.0,camera_tf.translation().z()/1000.0) );
+
+
+    tf::Transform t_final = camera_to_world*optical_to_camera.inverse()  ;
+
+    br.sendTransform(tf::StampedTransform(t_final, ros::Time::now(),"/world","/graspit_camera" ));
+}
 
 //------------------------- Main class  -------------------------------
 
@@ -123,7 +156,6 @@ int GraspitPointCloudPub::init(int argc, char **argv)
 
 int GraspitPointCloudPub::mainLoop()
 {
-
     ros::spinOnce();
     if(!inited)
     {
@@ -144,6 +176,8 @@ int GraspitPointCloudPub::mainLoop()
     sensor_msgs::Image *depth_msg = new sensor_msgs::Image;
     depthRenderer->renderDepthImage(depth_msg);
     depthImagePublisher.publish(*depth_msg);
+
+    publishCameraTF();
 
     delete depth_msg;
     delete rgb_msg;

@@ -5,6 +5,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/CameraInfo.h>
+#include <tf/transform_broadcaster.h>
 
 class DepthRenderer;
 class RGBRenderer;
@@ -35,6 +36,7 @@ private:
 
    void getCameraInfoFromCamera(sensor_msgs::CameraInfo * info);
    void setCameraFromInfo(sensor_msgs::CameraInfo & info, SoPerspectiveCamera * cam);
+   void publishCameraTF();
 
 
 public:

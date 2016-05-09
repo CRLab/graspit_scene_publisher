@@ -4,7 +4,7 @@ project(graspit_scene_publisher)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp  graspit sensor_msgs roslib rospack)
+find_package(catkin REQUIRED COMPONENTS roscpp  graspit sensor_msgs roslib rospack tf)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -15,6 +15,9 @@ find_package(SoQt REQUIRED)
 find_package(Qt4 REQUIRED COMPONENTS QtCore QtGui QtOpenGL)
 
 include(${QT_USE_FILE})
+
+#fixes qt signals slots, boost signals incompatability.
+ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
