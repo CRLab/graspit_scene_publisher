@@ -35,7 +35,6 @@ private:
 
 
    void getCameraInfoFromCamera(sensor_msgs::CameraInfo * info);
-   void setCameraFromInfo(sensor_msgs::CameraInfo & info, SoPerspectiveCamera * cam);
    void publishCameraTF();
 
 
