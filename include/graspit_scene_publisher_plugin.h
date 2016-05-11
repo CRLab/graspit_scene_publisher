@@ -4,17 +4,17 @@
 #include <include/plugin.h>
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
-#include <sensor_msgs/CameraInfo.h>
 #include <tf/transform_broadcaster.h>
 
 class DepthRenderer;
 class RGBRenderer;
+class CameraInfoBuilder;
 class SoPerspectiveCamera;
 
-namespace graspit_pointcloud_pub
+namespace graspit_scene_publisher
 {
 
-class GraspitPointCloudPub :  public Plugin
+class GraspitScenePublisherPlugin :  public Plugin
 {
 
 private:
@@ -30,18 +30,17 @@ private:
 
    DepthRenderer *depthRenderer;
    RGBRenderer *rgbRenderer;
+   CameraInfoBuilder *cameraInfoBuilder;
 
    bool inited;
 
-
-   void getCameraInfoFromCamera(sensor_msgs::CameraInfo * info);
    void publishCameraTF();
 
 
 public:
  
-  GraspitPointCloudPub();
-  ~GraspitPointCloudPub();
+  GraspitScenePublisherPlugin();
+  ~GraspitScenePublisherPlugin();
 
   virtual int init(int argc, char **argv);
   virtual int mainLoop();

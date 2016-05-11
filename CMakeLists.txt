@@ -135,18 +135,16 @@ catkin_package(
 
 ## Declare a C++ executable
  add_library(${PROJECT_NAME}
-   include/graspit_pointcloud_pub.h
+   include/graspit_scene_publisher_plugin.h
    include/depth_renderer.h
    include/rgb_renderer.h
-   include/SoGLFrameBufferSpy.h
-   include/SoReadableSceneTexture2.h
+   include/camera_info_builder.h
 
-   src/graspit_pointcloud_pub.cpp
+   src/graspit_scene_publisher_plugin.cpp
    src/main.cpp
    src/depth_renderer.cpp
    src/rgb_renderer.cpp
-   src/SoReadableSceneTexture2.cpp
-   src/SoGLFrameBufferSpy.cpp)
+   src/camera_info_builder.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
