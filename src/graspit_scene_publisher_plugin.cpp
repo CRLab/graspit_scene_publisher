@@ -26,6 +26,14 @@ GraspitScenePublisherPlugin::~GraspitScenePublisherPlugin()
 {
     ROS_INFO("ROS GraspIt node stopping");
     ros::shutdown();
+
+    delete depthRenderer;
+    delete rgbRenderer;
+    delete cameraInfoBuilder;
+
+    delete depth_msg;
+    delete rgb_msg;
+    delete camera_info_msg;
 }
 
 
@@ -83,7 +91,14 @@ int GraspitScenePublisherPlugin::init(int argc, char **argv)
 
 int GraspitScenePublisherPlugin::mainLoop()
 {
+
+    if(!ros::ok())
+    {
+        graspItGUI->exitMainLoop();
+    }
+
     ros::spinOnce();
+
     if(!inited)
     {
         //this cannot be initialized in init....
@@ -91,26 +106,23 @@ int GraspitScenePublisherPlugin::mainLoop()
         rgbRenderer = new RGBRenderer();
         cameraInfoBuilder = new CameraInfoBuilder();
 
+        depth_msg = new sensor_msgs::Image;
+        rgb_msg = new sensor_msgs::Image;
+        camera_info_msg = new sensor_msgs::CameraInfo;
+
         inited=true;
     }
 
-    sensor_msgs::CameraInfo *camera_info_msg = new sensor_msgs::CameraInfo;
     cameraInfoBuilder->buildMsg(camera_info_msg);
     cameraInfoPublisher.publish(*camera_info_msg);
 
-    sensor_msgs::Image *rgb_msg = new sensor_msgs::Image;
     rgbRenderer->renderImage(rgb_msg);
     rgbImagePublisher.publish(*rgb_msg);
 
-    sensor_msgs::Image *depth_msg = new sensor_msgs::Image;
     depthRenderer->renderDepthImage(depth_msg);
     depthImagePublisher.publish(*depth_msg);
 
     publishCameraTF();
-
-    delete depth_msg;
-    delete rgb_msg;
-    delete camera_info_msg;
 
     return 0;
 }

@@ -4,6 +4,7 @@
 #include <include/plugin.h>
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/CameraInfo.h>
 #include <tf/transform_broadcaster.h>
 
 class DepthRenderer;
@@ -31,6 +32,11 @@ private:
    DepthRenderer *depthRenderer;
    RGBRenderer *rgbRenderer;
    CameraInfoBuilder *cameraInfoBuilder;
+
+   sensor_msgs::CameraInfo *camera_info_msg;
+   sensor_msgs::Image *rgb_msg;
+   sensor_msgs::Image *depth_msg;
+
 
    bool inited;
 
