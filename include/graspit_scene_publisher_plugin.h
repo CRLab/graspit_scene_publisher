@@ -37,6 +37,8 @@ private:
    sensor_msgs::Image *rgb_msg;
    sensor_msgs::Image *depth_msg;
 
+   ros::Time time_of_last_publish;
+
 
    bool inited;
 

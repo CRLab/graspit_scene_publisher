@@ -20,7 +20,7 @@ void CameraInfoBuilder::buildMsg(sensor_msgs::CameraInfo * info)
     double fy = focal_len/2.0;
 
     info->header.stamp = ros::Time::now();
-    info->header.frame_id = "/graspit_camera";
+    info->header.frame_id = "/camera_rgb_optical_frame";
 
 //    std::cout << "heightAngle: " << camera->heightAngle.getValue() << " height: " << height << "\n ";
 //    std::cout << "fx: " << fx << " fy: " << fy << " cx: " << cx << " cy: " << cy << " height: " << height << " width: " << width << std::endl;
@@ -120,8 +120,8 @@ void CameraInfoBuilder::buildMsg(sensor_msgs::CameraInfo * info)
 //#  (width / binning_x) x (height / binning_y).
 //# The default values binning_x = binning_y = 0 is considered the same
 //#  as binning_x = binning_y = 1 (no subsampling).
-    info->binning_x = 0.0;
-    info->binning_y = 0.0;
+    info->binning_x = 0;
+    info->binning_y = 0;
 
 
 //# Region of interest (subwindow of full camera resolution), given in

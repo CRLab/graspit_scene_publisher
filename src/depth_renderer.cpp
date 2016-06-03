@@ -77,7 +77,7 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
 
     unsigned char * data = myRenderer->getBuffer();
 
-    float scale_factor = 10000.0; // output units to meters conversion factor
+    float scale_factor = 1000.0; // output units to meters conversion factor
 
     if(img_ptr != NULL)
     {
@@ -87,7 +87,7 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
       img_ptr->data.resize(img_ptr->height*img_ptr->width*sizeof(float));
       img_ptr->step = img_ptr->width*sizeof(float);
       img_ptr->is_bigendian = false;
-      img_ptr->header.frame_id = "/graspit_camera";
+      img_ptr->header.frame_id = "/camera_rgb_optical_frame";
       img_ptr->header.stamp = ros::Time::now();
 
       float * float_data = (float*)img_ptr->data.data();
@@ -106,11 +106,11 @@ void DepthRenderer::renderDepthImage(sensor_msgs::Image * img_ptr)
                int val = 0;
                for (int c =0; c < 3; c++)
                {
-                   val += data[i]*pow(255,(3-c-1));
+                   val += data[i]*pow(255,(3-c-1)) ;
                    ++i;
                }
                ++i; // extra one because 4 channels...
-               float_data[index] =  val/scale_factor;
+               float_data[index] =  val/ scale_factor;
            }
        }
 

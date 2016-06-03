@@ -34,7 +34,7 @@ void RGBRenderer::renderImage(sensor_msgs::Image * img_ptr)
             img_ptr->data.resize(img_ptr->height*img_ptr->width*size_of_elem);
             img_ptr->step = img_ptr->width*size_of_elem;
             img_ptr->is_bigendian = false;
-            img_ptr->header.frame_id ="/graspit_camera";
+            img_ptr->header.frame_id = "/camera_rgb_optical_frame";
             img_ptr->header.stamp = ros::Time::now();
 
               int channels = 3;

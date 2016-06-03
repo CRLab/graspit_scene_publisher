@@ -17,5 +17,5 @@ vec3 pack3(float d)
 
 void main()
 {
-  gl_FragColor = vec4(pack3(10.0*depth), 1.0);
+    gl_FragColor = vec4(pack3(depth), 1);
 }

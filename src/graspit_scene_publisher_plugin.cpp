@@ -66,7 +66,7 @@ void GraspitScenePublisherPlugin::publishCameraTF()
 
     tf::Transform t_final = camera_to_world*optical_to_camera.inverse()  ;
 
-    br.sendTransform(tf::StampedTransform(t_final, ros::Time::now(),"/world","/graspit_camera" ));
+    br.sendTransform(tf::StampedTransform(t_final, ros::Time::now(),"/world","/camera_rgb_optical_frame" ));
 }
 
 //------------------------- Main class  -------------------------------
@@ -113,6 +113,11 @@ int GraspitScenePublisherPlugin::mainLoop()
         inited=true;
     }
 
+    if((ros::Time::now() - time_of_last_publish).toSec() < 1.0)
+    {
+        return 0;
+    }
+
     cameraInfoBuilder->buildMsg(camera_info_msg);
     cameraInfoPublisher.publish(*camera_info_msg);
 
@@ -123,6 +128,8 @@ int GraspitScenePublisherPlugin::mainLoop()
     depthImagePublisher.publish(*depth_msg);
 
     publishCameraTF();
+
+    time_of_last_publish = ros::Time::now();
 
     return 0;
 }
